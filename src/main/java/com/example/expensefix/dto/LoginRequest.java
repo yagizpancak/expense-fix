@@ -1,6 +1,6 @@
 package com.example.expensefix.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
