@@ -24,7 +24,7 @@ public class UserService {
 	}
 
 	public Boolean login(LoginRequest loginRequest) throws GenericBadRequestException {
-		var user = userRepository.findByUsername(loginRequest.getUsername())
+		User user = userRepository.findByUsername(loginRequest.getUsername())
 				.orElseThrow(()-> new GenericBadRequestException("There is no user with this username: " + loginRequest.getUsername()));
 
 		if(!user.getPassword().equals(loginRequest.getPassword())){
