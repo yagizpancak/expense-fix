@@ -3,7 +3,6 @@ package com.example.expensefix.controller;
 import com.example.expensefix.dto.LoginRequest;
 import com.example.expensefix.dto.SignupRequest;
 import com.example.expensefix.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class UserController {
 	private final UserService userService;
-
-	@GetMapping("/")
-	public String home(){
-		return "hello";
-	}
 
 	@PostMapping("/signup")
 	public void signup(@RequestBody SignupRequest userInfo){
