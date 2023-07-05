@@ -1,6 +1,8 @@
 package com.example.expensefix.service;
 
 
+import com.example.expensefix.dto.CategoryRequest;
+import com.example.expensefix.dto.MonthRequest;
 import com.example.expensefix.dto.SignupRequest;
 import com.example.expensefix.exception.GenericBadRequestException;
 import com.example.expensefix.model.Expense;
@@ -20,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -115,6 +119,54 @@ public class StatementService {
             e.printStackTrace();
         }
         return true;
+    }
 
+    public List<Expense> getMonthlyStatementByCardNumberAndMonth(String cardNumber, String month){
+        int statementID = statementRepository.findByCardNumberAndMonth(cardNumber,month).getId();
+        return expenseRepository.findAllByStatementID(statementID);
+    }
+
+    public List<Statement> getAllStatementByUserId(int userID){
+        return statementRepository.findByUserID(userID);
+    }
+
+    public MonthRequest lastMonthSpendings(int userdID){
+        MonthRequest monthRequest = new MonthRequest("",0,new ArrayList<CategoryRequest>());
+        float total = 0;
+        List<CategoryRequest> categoryList;
+        String lastMonth = statementRepository.findTopByUserIDOrderByIdDesc(userdID).getMonth();
+        List<Statement> lastMonthStatements = statementRepository.findByUserIDAndMonth(userdID, lastMonth);
+
+        List<String> categories = new ArrayList<>();
+        List<Float> amounts = new ArrayList<>();
+
+        for(Statement statement: lastMonthStatements){
+            List<String> aStatementCategories = expenseRepository.findDistinctCategoryByStatementID(statement.getId());
+
+            for(String category: aStatementCategories){
+                float tempCategoryTotal = 0;
+                for(Float amount: expenseRepository.findAmountByCategoryAndStatementID(category,statement.getId())){
+                    tempCategoryTotal += amount;
+                    total += amount;
+                }
+
+                if(!categories.contains(category)){
+                    categories.add(category);
+                    amounts.add(tempCategoryTotal);
+                }else{
+                    int index = categories.indexOf(category);
+                    amounts.set(index, amounts.get(index) + tempCategoryTotal);
+                }
+            }
+        }
+        for(String category: categories){
+            CategoryRequest categoryRequest = new CategoryRequest(category, amounts.get(categories.indexOf(category)));
+            monthRequest.getCategoryList().add(categoryRequest);
+        }
+
+        monthRequest.setMonth(lastMonth);
+        monthRequest.setTotal(total);
+
+        return monthRequest;
     }
 }

@@ -21,6 +21,9 @@ public class Statement {
     @Column(name = "user_id")
     private int userID;
 
+    @Column(name = "card_number")
+    private String cardNumber;
+
     @Column(name = "month")
     private String month;
 

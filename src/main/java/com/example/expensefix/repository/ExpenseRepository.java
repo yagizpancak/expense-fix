@@ -15,4 +15,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, Integer> {
 
     @Query("SELECT e.amount FROM Expense e WHERE e.statementID = ?1")
     List<Float> findAmountByStatementID(int statementID);
+
+
+    List<Expense> findAllByStatementID(int statementID);
 }

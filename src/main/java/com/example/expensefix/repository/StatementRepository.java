@@ -9,4 +9,7 @@ import java.util.List;
 public interface StatementRepository extends JpaRepository<Statement, Integer> {
     List<Statement> findByUserID(int userID);
     List<Statement> findByUserIDAndMonth(int userID, String month);
+    Statement findById(int id);
+    Statement findByCardNumberAndMonth(String cardNumber, String month);
+    Statement findTopByUserIDOrderByIdDesc(int userID);
 }
