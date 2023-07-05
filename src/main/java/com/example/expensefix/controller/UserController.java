@@ -3,17 +3,20 @@ package com.example.expensefix.controller;
 import com.example.expensefix.dto.LoginRequest;
 import com.example.expensefix.dto.SignupRequest;
 import com.example.expensefix.service.UserService;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 	private final UserService userService;
+
+	@GetMapping("/")
+	public String home(){
+		return "hello";
+	}
 
 	@PostMapping("/signup")
 	public void signup(@RequestBody SignupRequest userInfo){
