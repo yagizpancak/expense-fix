@@ -2,6 +2,7 @@ package com.example.expensefix.service;
 
 
 import com.example.expensefix.dto.CategoryRequest;
+import com.example.expensefix.dto.DashboardRequest;
 import com.example.expensefix.dto.MonthRequest;
 import com.example.expensefix.dto.SignupRequest;
 import com.example.expensefix.exception.GenericBadRequestException;
@@ -190,5 +191,9 @@ public class StatementService {
             monthRequestList.add(new MonthRequest(month, totalList.get(monthList.indexOf(month)), null));
         }
         return monthRequestList;
+    }
+
+    public DashboardRequest DashboardSpendings(int UserID){
+        return new DashboardRequest(lastMonthSpendings(UserID), AllMonthSpendings(UserID));
     }
 }
