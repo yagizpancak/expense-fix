@@ -169,4 +169,26 @@ public class StatementService {
 
         return monthRequest;
     }
+
+    public List<MonthRequest> AllMonthSpendings(int userID){
+        List<String> monthList = new ArrayList<>();
+        List<Float> totalList = new ArrayList<>();
+
+        List<MonthRequest> monthRequestList = new ArrayList<>();
+
+        List<Statement> statementList = statementRepository.findAllByUserIDOrderByIdDesc(userID);
+        for(Statement statement: statementList){
+            if(!monthList.contains(statement.getMonth())){
+                monthList.add(statement.getMonth());
+            }
+            for(Expense expense: expenseRepository.findAllByStatementID(statement.getId())){
+                int index = monthList.indexOf(statement.getMonth());
+                totalList.set(index, totalList.get(index) + expense.getAmount());
+            }
+        }
+        for(String month: monthList){
+            monthRequestList.add(new MonthRequest(month, totalList.get(monthList.indexOf(month)), null));
+        }
+        return monthRequestList;
+    }
 }
