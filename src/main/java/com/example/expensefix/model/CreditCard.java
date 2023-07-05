@@ -26,7 +26,8 @@ public class CreditCard {
 
 	@Column(name= "bank_name")
 	private String bankName;
-
+	@Column(name= "card_name")
+	private String name;
 	@Column(name= "card_user")
 	private String username;
 
