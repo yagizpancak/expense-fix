@@ -47,7 +47,7 @@ public class StatementService {
         try {
 
             switch (bankName) {
-                case "isbank":
+                case "İş Bankası":
                     HSSFWorkbook workbook = new HSSFWorkbook(file.getInputStream());
                     HSSFSheet sheet = workbook.getSheetAt(0);
 
@@ -81,7 +81,7 @@ public class StatementService {
                         statementRepository.save(statement);
                     }
 
-                case "ziraatbank":
+                case "Ziraat Bankası":
                     XSSFWorkbook workbook2 = new XSSFWorkbook(file.getInputStream());
                     XSSFSheet sheet2 = workbook2.getSheetAt(0);
 
